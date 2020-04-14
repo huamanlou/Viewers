@@ -46,7 +46,6 @@ class RoundedButtonGroup extends Component {
       RoundedButtonGroup.className,
       'clearfix center-table'
     );
-
     const buttons = this.props.options.map((option, index) => {
       const className = classnames({
         roundedButtonWrapper: true,

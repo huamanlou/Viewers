@@ -5,6 +5,7 @@ import cornerstone from 'cornerstone-core';
 import moment from 'moment';
 import { utils, log } from '@ohif/core';
 import { ScrollableArea, TableList, Icon } from '@ohif/ui';
+import {exportSeg} from '../export.js';
 
 import {
   BrushColorSelector,
@@ -89,7 +90,6 @@ const SegmentationPanel = ({ studies, viewports, activeIndex, isOpen }) => {
     const studyMetadata = studyMetadataManager.get(activeViewport.StudyInstanceUID);
     const firstImageId = studyMetadata.getFirstImageId(activeViewport.displaySetInstanceUID);
     const brushStackState = module.state.series[firstImageId];
-
     if (brushStackState) {
       const labelmap3D = brushStackState.labelmaps3D[brushStackState.activeLabelmapIndex];
       const labelmapList = getLabelmapList(brushStackState, firstImageId, activeViewport);
@@ -204,6 +204,7 @@ const SegmentationPanel = ({ studies, viewports, activeIndex, isOpen }) => {
           segmentNumber,
           labelmap3D.activeSegmentIndex
         );
+        exportSeg(studies, viewports, activeIndex);
         updateState('selectedSegment', sameSegment ? null : segmentNumber);
       };
 
