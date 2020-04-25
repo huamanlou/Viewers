@@ -19,9 +19,30 @@ export const exportSeg = (studies, viewports, activeIndex) => {
     const toolState = globalToolStateManager.saveToolState();
 
     const stackToolState = cornerstoneTools.getToolState(element, "stack");
-    const imageIds = stackToolState.data[0].imageIds;
+    // const imageIds = stackToolState.data[0].imageIds;
+    // let imageIds = [
+    //   'dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.11.dcm',
+    //   'dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.12.dcm'
+    // ]
+    let imageIds = [
+      'http://118.190.76.120:8077/dcm/SE000000.dcm',
+      'http://118.190.76.120:8077/dcm/SE000001.dcm',
+      'http://118.190.76.120:8077/dcm/SE000002.dcm',
+      'http://118.190.76.120:8077/dcm/SE000003.dcm',
+      'http://118.190.76.120:8077/dcm/SE000004.dcm',
+      'http://118.190.76.120:8077/dcm/SE000005.dcm',
+      'http://118.190.76.120:8077/dcm/SE000006.dcm',
+      'http://118.190.76.120:8077/dcm/SE000007.dcm',
+      'http://118.190.76.120:8077/dcm/SE000008.dcm',
+      'http://118.190.76.120:8077/dcm/SE000009.dcm',
+      'http://118.190.76.120:8077/dcm/SE000010.dcm',
+      'http://118.190.76.120:8077/dcm/SE000011.dcm',
+      'http://118.190.76.120:8077/dcm/SE000012.dcm',
+      'http://118.190.76.120:8077/dcm/SE000013.dcm',
+      'http://118.190.76.120:8077/dcm/SE000014.dcm',
+    ]
 
-    console.log('bbbbb',imageIds)
+    console.log('aaaaa',imageIds)
 
     let imagePromises = [];
     for (let i = 0; i < imageIds.length; i++) {
@@ -61,6 +82,7 @@ export const exportSeg = (studies, viewports, activeIndex) => {
       console.log('cccccc',images,labelmaps3D)
       const segBlob = dcmjs.adapters.Cornerstone.Segmentation.generateSegmentation(images,labelmaps3D);
       //Create a URL for the binary.
+      console.log('dddddd',segBlob)
       var objectUrl = URL.createObjectURL(segBlob);
       window.open(objectUrl);
     }).catch(err => {
