@@ -110,6 +110,10 @@ module.exports = (env, argv) => {
       historyApiFallback: {
         disableDotRule: true,
       },
+      disableHostCheck: true, 
+      watchOptions: {
+        poll: true
+      }
     },
   });
 

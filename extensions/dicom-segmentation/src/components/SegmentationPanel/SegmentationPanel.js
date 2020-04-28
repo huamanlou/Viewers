@@ -5,6 +5,7 @@ import cornerstone from 'cornerstone-core';
 import moment from 'moment';
 import { utils, log } from '@ohif/core';
 import { ScrollableArea, TableList, Icon } from '@ohif/ui';
+import { exportSeg } from '../export.js';
 
 import {
   BrushColorSelector,
@@ -233,6 +234,7 @@ const SegmentationPanel = ({
             segmentNumber,
             labelmap3D.activeSegmentIndex
           );
+          exportSeg(studies, viewports, activeIndex);
           updateState('selectedSegment', sameSegment ? null : segmentNumber);
 
           const validIndexList = [];

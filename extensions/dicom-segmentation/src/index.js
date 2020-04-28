@@ -41,6 +41,8 @@ export default {
           label: 'Segmentations',
           target: 'segmentation-panel',
           isDisabled: studies => {
+            return false;
+            
             if (!studies) {
               return true;
             }

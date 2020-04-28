@@ -6,15 +6,27 @@ window.config = {
   filterQueryParam: false,
   servers: {
     dicomWeb: [
+      // {
+      //   name: 'DCM4CHEE',
+      //   wadoUriRoot: 'https://server.dcmjs.org/dcm4chee-arc/aets/DCM4CHEE/wado',
+      //   qidoRoot: 'https://server.dcmjs.org/dcm4chee-arc/aets/DCM4CHEE/rs',
+      //   wadoRoot: 'https://server.dcmjs.org/dcm4chee-arc/aets/DCM4CHEE/rs',
+      //   qidoSupportsIncludeField: true,
+      //   imageRendering: 'wadors',
+      //   thumbnailRendering: 'wadors',
+      //   enableStudyLazyLoad: true,
+      // },
       {
-        name: 'DCM4CHEE',
-        wadoUriRoot: 'https://server.dcmjs.org/dcm4chee-arc/aets/DCM4CHEE/wado',
-        qidoRoot: 'https://server.dcmjs.org/dcm4chee-arc/aets/DCM4CHEE/rs',
-        wadoRoot: 'https://server.dcmjs.org/dcm4chee-arc/aets/DCM4CHEE/rs',
+        name: 'Orthanc',
+        wadoUriRoot: 'http://118.190.76.120:8077/orthanc/wado',
+        qidoRoot: 'http://118.190.76.120:8077/orthanc/dicom-web',
+        wadoRoot: 'http://118.190.76.120:8077/orthanc/dicom-web',
         qidoSupportsIncludeField: true,
         imageRendering: 'wadors',
         thumbnailRendering: 'wadors',
-        enableStudyLazyLoad: true,
+        requestOptions: {
+          requestFromBrowser: true,
+        },
       },
     ],
   },

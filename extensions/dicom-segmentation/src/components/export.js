@@ -25,21 +25,21 @@ export const exportSeg = (studies, viewports, activeIndex) => {
     //   'dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.12.dcm'
     // ]
     let imageIds = [
-      'http://118.190.76.120:8077/dcm/SE000000.dcm',
-      'http://118.190.76.120:8077/dcm/SE000001.dcm',
-      'http://118.190.76.120:8077/dcm/SE000002.dcm',
-      'http://118.190.76.120:8077/dcm/SE000003.dcm',
-      'http://118.190.76.120:8077/dcm/SE000004.dcm',
-      'http://118.190.76.120:8077/dcm/SE000005.dcm',
-      'http://118.190.76.120:8077/dcm/SE000006.dcm',
-      'http://118.190.76.120:8077/dcm/SE000007.dcm',
-      'http://118.190.76.120:8077/dcm/SE000008.dcm',
-      'http://118.190.76.120:8077/dcm/SE000009.dcm',
-      'http://118.190.76.120:8077/dcm/SE000010.dcm',
-      'http://118.190.76.120:8077/dcm/SE000011.dcm',
-      'http://118.190.76.120:8077/dcm/SE000012.dcm',
-      'http://118.190.76.120:8077/dcm/SE000013.dcm',
-      'http://118.190.76.120:8077/dcm/SE000014.dcm',
+      'dicomweb://118.190.76.120:8077/dcm/SE000000.dcm',
+      'dicomweb://118.190.76.120:8077/dcm/SE000001.dcm',
+      'dicomweb://118.190.76.120:8077/dcm/SE000002.dcm',
+      'dicomweb://118.190.76.120:8077/dcm/SE000003.dcm',
+      'dicomweb://118.190.76.120:8077/dcm/SE000004.dcm',
+      'dicomweb://118.190.76.120:8077/dcm/SE000005.dcm',
+      'dicomweb://118.190.76.120:8077/dcm/SE000006.dcm',
+      'dicomweb://118.190.76.120:8077/dcm/SE000007.dcm',
+      'dicomweb://118.190.76.120:8077/dcm/SE000008.dcm',
+      'dicomweb://118.190.76.120:8077/dcm/SE000009.dcm',
+      'dicomweb://118.190.76.120:8077/dcm/SE000010.dcm',
+      'dicomweb://118.190.76.120:8077/dcm/SE000011.dcm',
+      'dicomweb://118.190.76.120:8077/dcm/SE000012.dcm',
+      'dicomweb://118.190.76.120:8077/dcm/SE000013.dcm',
+      'dicomweb://118.190.76.120:8077/dcm/SE000014.dcm',
     ]
 
     console.log('aaaaa',imageIds)
@@ -77,6 +77,8 @@ export const exportSeg = (studies, viewports, activeIndex) => {
         });
       }
     }
+    //反转一下试试
+    labelmaps3D.reverse();
 
     Promise.all(imagePromises).then(images => {
       console.log('cccccc',images,labelmaps3D)
