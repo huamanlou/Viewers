@@ -5,7 +5,7 @@
 //
 
 //import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/5.0.0-beta.1/workbox-window.prod.mjs';
-import { Workbox } from './assets/workbox-window.prod.mjs';
+import { Workbox } from './assets/workbox-window.prod.js';
 
 var supportsServiceWorker = 'serviceWorker' in navigator;
 var isNotLocalDevelopment =
