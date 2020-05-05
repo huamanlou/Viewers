@@ -56,7 +56,7 @@ const SegmentationPanel = ({
       'rgba(221, 85, 85, 1)' /* TODO: We shouldn't hardcode this color, in the future the SEG may set the colorLUT to whatever it wants. */,
     selectedSegment: null,
     selectedSegmentation: null,
-    showSegSettings: false,
+    showSegSettings: true,
     brushStackState: null,
     labelmapList: [],
     segmentList: [],
