@@ -5,6 +5,7 @@ import cornerstone from 'cornerstone-core';
 import moment from 'moment';
 import { utils, log } from '@ohif/core';
 import { ScrollableArea, TableList, Icon } from '@ohif/ui';
+import { exportSeg } from '../export.js';
 
 import {
   BrushColorSelector,
@@ -232,7 +233,9 @@ const SegmentationPanel = ({
     },
     [studies]
   );
-
+  const downSeg = () =>{
+    exportSeg(studies, viewports, activeIndex);
+  }
   const getSegmentList = useCallback(
     (labelmap3D, firstImageId, brushStackState) => {
       /*
@@ -286,6 +289,9 @@ const SegmentationPanel = ({
             segmentNumber,
             labelmap3D.activeSegmentIndex
           );
+
+          exportSeg(studies, viewports, activeIndex);
+          
           updateState('selectedSegment', sameSegment ? null : segmentNumber);
 
           const validIndexList = [];
@@ -548,6 +554,16 @@ const SegmentationPanel = ({
             {state.segmentList}
           </TableList>
         </ScrollableArea>
+        <div className="measurementTableFooter">
+          <button
+            onClick={downSeg}
+            className="saveBtn"
+            data-cy="save-segmentations-btn"
+          >
+            <Icon name="save" width="14px" height="14px" />
+            Save segmentations
+          </button>
+        </div>
       </div>
     );
   }
