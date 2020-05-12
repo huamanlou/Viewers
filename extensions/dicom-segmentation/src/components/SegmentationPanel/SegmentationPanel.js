@@ -234,6 +234,7 @@ const SegmentationPanel = ({
     [studies]
   );
   const downSeg = () =>{
+    console.log(studies,viewports,activeIndex)
     exportSeg(studies, viewports, activeIndex);
   }
   const getSegmentList = useCallback(
@@ -289,8 +290,8 @@ const SegmentationPanel = ({
             segmentNumber,
             labelmap3D.activeSegmentIndex
           );
-
-          exportSeg(studies, viewports, activeIndex);
+          console.log(studies,viewports,activeIndex)
+          // exportSeg(studies, viewports, activeIndex);
           
           updateState('selectedSegment', sameSegment ? null : segmentNumber);
 

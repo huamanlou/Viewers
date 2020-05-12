@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import './SegmentationItem.css';
 
 const SegmentationItem = ({ onClick, title, description }) => {
+  title = 'Segmentations';//覆盖掉
   return (
     <li className="dcmseg-segmentation-item" onClick={onClick}>
       <div className="segmentation-meta">

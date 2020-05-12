@@ -22,7 +22,11 @@ const dicomPath = (url) =>{
 
 export const exportSeg = (studies, viewports, activeIndex) => {
     console.log('xxxxxx',studies,viewports,activeIndex);
-
+    var title = window.prompt("请输入segments 标题","Segments") 
+    if(!title){
+      alert('已取消');
+      return;
+    }
 
     // const activeViewport = viewports[activeIndex];
 
@@ -100,7 +104,8 @@ export const exportSeg = (studies, viewports, activeIndex) => {
         const segmentsOnLabelmap = labelmaps2D[i].segmentsOnLabelmap;
         segmentsOnLabelmap.forEach(segmentIndex => {
           if (segmentIndex !== 0 && !labelmap3D.metadata[segmentIndex]) {
-            labelmap3D.metadata[segmentIndex] = generateMockMetadata(segmentIndex)
+            // labelmap3D.metadata[segmentIndex] = generateMockMetadata(segmentIndex)
+            labelmap3D.metadata[segmentIndex] = generateMockMetadata(segmentIndex,title)
           }
         });
       }
@@ -121,29 +126,29 @@ export const exportSeg = (studies, viewports, activeIndex) => {
 }
 
 
-const generateMockMetadata = (segmentIndex) => {
+const generateMockMetadata = (segmentIndex,title) => {
   // TODO -> Use colors from the cornerstoneTools LUT.
   const RecommendedDisplayCIELabValue = dcmjs.data.Colors.rgb2DICOMLAB([
     1,
     0,
     0
   ]);
-
+  let segmentTitle = title || 'Segments'
   return {
     SegmentedPropertyCategoryCodeSequence: {
       CodeValue: "T-D0050",
       CodingSchemeDesignator: "SRT",
-      CodeMeaning: "Tissue"
+      CodeMeaning: segmentTitle
     },
     SegmentNumber: (segmentIndex + 1).toString(),
-    SegmentLabel: "Tissue " + (segmentIndex + 1).toString(),
+    SegmentLabel: segmentTitle+ ' ' + (segmentIndex + 1).toString(),
     SegmentAlgorithmType: "SEMIAUTOMATIC",
     SegmentAlgorithmName: "Slicer Prototype",
     RecommendedDisplayCIELabValue,
     SegmentedPropertyTypeCodeSequence: {
       CodeValue: "T-D0050",
       CodingSchemeDesignator: "SRT",
-      CodeMeaning: "Tissue"
+      CodeMeaning: segmentTitle
     }
   };
 }
