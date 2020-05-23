@@ -233,9 +233,13 @@ const SegmentationPanel = ({
     },
     [studies]
   );
-  const downSeg = () =>{
+  const downSeg = () =>{//下载
     console.log(studies,viewports,activeIndex)
-    exportSeg(studies, viewports, activeIndex);
+    exportSeg({studies, viewports, activeIndex});
+  }
+  const saveSeg = () =>{ //保存
+    console.log(studies,viewports,activeIndex)
+    exportSeg({studies, viewports, activeIndex, save:true});
   }
   const getSegmentList = useCallback(
     (labelmap3D, firstImageId, brushStackState) => {
@@ -558,6 +562,14 @@ const SegmentationPanel = ({
         <div className="measurementTableFooter">
           <button
             onClick={downSeg}
+            className="saveBtn"
+            data-cy="download-segmentations-btn"
+          >
+            <Icon name="save" width="14px" height="14px" />
+            download segmentations
+          </button>
+          <button
+            onClick={saveSeg}
             className="saveBtn"
             data-cy="save-segmentations-btn"
           >
