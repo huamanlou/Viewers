@@ -20,8 +20,9 @@ const dicomPath = (url) =>{
   return false;
 }
 
-export const exportSeg = (studies, viewports, activeIndex) => {
-    console.log('xxxxxx',studies,viewports,activeIndex);
+export const exportSeg = ({studies, viewports, activeIndex, save=false}={}) => {
+    // console.log('xxxxxx',studies,viewports,activeIndex);
+    // return;
     var title = window.prompt("请输入segments 标题","Segments") 
     if(!title){
       alert('已取消');
@@ -50,29 +51,6 @@ export const exportSeg = (studies, viewports, activeIndex) => {
       imageIds.push(url)
     })
 
-    // let imageIds = [
-    //   'dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.11.dcm',
-    //   'dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.12.dcm'
-    // ]
-
-    // http://118.190.76.120:8077/orthanc/wado?objectUID=1.2.840.113619.2.244.6945.3553798.23132.1275611655.854&contentType=application%2Fdicom&requestType=WADO
-    // imageIds = [
-    //   'dicomweb://118.190.76.120:8077/dcm/SE000000.dcm',
-    //   'dicomweb://118.190.76.120:8077/dcm/SE000001.dcm',
-    //   'dicomweb://118.190.76.120:8077/dcm/SE000002.dcm',
-    //   'dicomweb://118.190.76.120:8077/dcm/SE000003.dcm',
-    //   'dicomweb://118.190.76.120:8077/dcm/SE000004.dcm',
-    //   'dicomweb://118.190.76.120:8077/dcm/SE000005.dcm',
-    //   'dicomweb://118.190.76.120:8077/dcm/SE000006.dcm',
-    //   'dicomweb://118.190.76.120:8077/dcm/SE000007.dcm',
-    //   'dicomweb://118.190.76.120:8077/dcm/SE000008.dcm',
-    //   'dicomweb://118.190.76.120:8077/dcm/SE000009.dcm',
-    //   'dicomweb://118.190.76.120:8077/dcm/SE000010.dcm',
-    //   'dicomweb://118.190.76.120:8077/dcm/SE000011.dcm',
-    //   'dicomweb://118.190.76.120:8077/dcm/SE000012.dcm',
-    //   'dicomweb://118.190.76.120:8077/dcm/SE000013.dcm',
-    //   'dicomweb://118.190.76.120:8077/dcm/SE000014.dcm',
-    // ]
 
     console.log('aaaaa',imageIds)
 
@@ -118,8 +96,16 @@ export const exportSeg = (studies, viewports, activeIndex) => {
       const segBlob = dcmjs.adapters.Cornerstone.Segmentation.generateSegmentation(images,labelmaps3D);
       //Create a URL for the binary.
       console.log('dddddd',segBlob)
-      var objectUrl = URL.createObjectURL(segBlob);
-      window.open(objectUrl);
+      alert(save)
+      if(!save){ //下载
+        var objectUrl = URL.createObjectURL(segBlob);
+        window.open(objectUrl);
+      }else{//保存
+        alert('save')
+
+      }
+
+
     }).catch(err => {
       console.log(err)
     });

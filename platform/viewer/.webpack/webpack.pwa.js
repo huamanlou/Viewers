@@ -91,8 +91,8 @@ module.exports = (env, argv) => {
       new InjectManifest({
         swDest: 'sw.js',
         swSrc: path.join(SRC_DIR, 'service-worker.js'),
-        // Increase the limit to 4mb:
-        // maximumFileSizeToCacheInBytes: 4 * 1024 * 1024
+        // Increase the limit to 100mb:
+        maximumFileSizeToCacheInBytes: 100 * 1024 * 1024
       }),
     ],
     // https://webpack.js.org/configuration/dev-server/
