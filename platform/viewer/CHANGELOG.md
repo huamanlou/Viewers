@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/OHIF/Viewers/compare/@ohif/viewer@4.0.0...@ohif/viewer@4.1.0) (2020-05-15)
+
+
+### Features
+
+* expose some app internals as window.app ([#1735](https://github.com/OHIF/Viewers/issues/1735)) ([63fd656](https://github.com/OHIF/Viewers/commit/63fd65690cba450721870a6222e0fb3ad71bb291))
+
+
+
+
+
+# [4.0.0](https://github.com/OHIF/Viewers/compare/@ohif/viewer@3.11.11...@ohif/viewer@4.0.0) (2020-05-14)
+
+
+### Bug Fixes
+
+* 🐛 Fix race condition when loading derived display sets ([#1718](https://github.com/OHIF/Viewers/issues/1718)) ([b1678ce](https://github.com/OHIF/Viewers/commit/b1678ce6399dde37a9878f45ccc7c63286d93fab)), closes [#1715](https://github.com/OHIF/Viewers/issues/1715)
+
+
+### BREAKING CHANGES
+
+* 🧨 However we start to load once the first set of metadata arrives. We need
+to wait until all series metadata is fetched.
+
+
+
+
+
+## [3.11.11](https://github.com/OHIF/Viewers/compare/@ohif/viewer@3.11.10...@ohif/viewer@3.11.11) (2020-05-14)
+
+
+### Bug Fixes
+
+* 🐛 Load default display set when no time metadata ([#1684](https://github.com/OHIF/Viewers/issues/1684)) ([f7b8b6a](https://github.com/OHIF/Viewers/commit/f7b8b6a41c4626084ef56b0fdf7363e914b143c4)), closes [#1683](https://github.com/OHIF/Viewers/issues/1683)
+
+
+
+
+
 ## [3.11.10](https://github.com/OHIF/Viewers/compare/@ohif/viewer@3.11.9...@ohif/viewer@3.11.10) (2020-05-13)
 
 **Note:** Version bump only for package @ohif/viewer
