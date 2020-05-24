@@ -5,7 +5,7 @@ import cornerstone from 'cornerstone-core';
 import moment from 'moment';
 import { utils, log } from '@ohif/core';
 import { ScrollableArea, TableList, Icon } from '@ohif/ui';
-import { exportSeg } from '../export.js';
+import { exportSeg,deleteSeg } from '../export.js';
 
 import {
   BrushColorSelector,
@@ -240,6 +240,10 @@ const SegmentationPanel = ({
   const saveSeg = () =>{ //保存
     console.log(studies,viewports,activeIndex)
     exportSeg({studies, viewports, activeIndex, save:true});
+  }
+  const deleteSegments = () =>{ //删除
+    console.log(studies,viewports,activeIndex)
+    deleteSeg(studies,activeIndex)
   }
   const getSegmentList = useCallback(
     (labelmap3D, firstImageId, brushStackState) => {
@@ -575,6 +579,14 @@ const SegmentationPanel = ({
           >
             <Icon name="save" width="14px" height="14px" />
             Save segmentations
+          </button>
+          <button
+            onClick={deleteSegments}
+            className="saveBtn"
+            data-cy="delete-segmentations-btn"
+          >
+            <Icon name="save" width="14px" height="14px" />
+            Delete segmentations
           </button>
         </div>
       </div>
