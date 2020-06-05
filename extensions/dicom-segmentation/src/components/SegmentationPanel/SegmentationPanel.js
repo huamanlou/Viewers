@@ -50,8 +50,8 @@ const SegmentationPanel = ({
   onConfigurationChange,
   onDisplaySetLoadFailure,
   onSelectedSegmentationChange,
-  activeContexts,
-  contexts,
+  activeContexts = [],
+  contexts = {},
 }) => {
   const isVTK = () => activeContexts.includes(contexts.VTK);
   const isCornerstone = () => activeContexts.includes(contexts.CORNERSTONE);
@@ -233,15 +233,15 @@ const SegmentationPanel = ({
     },
     [studies]
   );
-  const downSeg = () =>{//ä¸‹è½½
+  const downSeg = () =>{//ÏÂÔØ
     console.log(studies,viewports,activeIndex)
     exportSeg({studies, viewports, activeIndex});
   }
-  const saveSeg = () =>{ //ä¿å­˜
+  const saveSeg = () =>{ //±£´æ
     console.log(studies,viewports,activeIndex)
     exportSeg({studies, viewports, activeIndex, save:true});
   }
-  const deleteSegments = () =>{ //åˆ é™¤
+  const deleteSegments = () =>{ //É¾³ý
     console.log(studies,viewports,activeIndex)
     deleteSeg(studies,activeIndex)
   }
