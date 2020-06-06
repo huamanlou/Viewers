@@ -233,15 +233,15 @@ const SegmentationPanel = ({
     },
     [studies]
   );
-  const downSeg = () =>{//ÏÂÔØ
+  const downSeg = () =>{
     console.log(studies,viewports,activeIndex)
     exportSeg({studies, viewports, activeIndex});
   }
-  const saveSeg = () =>{ //±£´æ
+  const saveSeg = () =>{
     console.log(studies,viewports,activeIndex)
     exportSeg({studies, viewports, activeIndex, save:true});
   }
-  const deleteSegments = () =>{ //É¾³ı
+  const deleteSegments = () =>{
     console.log(studies,viewports,activeIndex)
     deleteSeg(studies,activeIndex)
   }
@@ -579,14 +579,6 @@ const SegmentationPanel = ({
           >
             <Icon name="save" width="14px" height="14px" />
             Save segmentations
-          </button>
-          <button
-            onClick={deleteSegments}
-            className="saveBtn"
-            data-cy="delete-segmentations-btn"
-          >
-            <Icon name="save" width="14px" height="14px" />
-            Delete segmentations
           </button>
         </div>
       </div>
