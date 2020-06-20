@@ -4,6 +4,8 @@ import cornerstoneTools from 'cornerstone-tools';
 import cornerstone from 'cornerstone-core';
 import * as dcmjs from 'dcmjs';
 import { utils, log } from '@ohif/core';
+import './jquery.min.js';
+import './opencpu-0.4.js';
 const { studyMetadataManager } = utils;
 
 const orthancUrl = `//118.190.76.120:8077/orthanc`;
@@ -138,28 +140,68 @@ const fetchData = async function({url,binaryData,method='POST'}={}){
     
 
 }
-export const deleteSeg = async (studies,activeIndex)=>{
-    var r = confirm('确定删除该study所有seg');
-    if (!r) {
-      return;
-    }
+// export const deleteSeg = async (studies,activeIndex)=>{
+//     var r = confirm('确定删除该study所有seg');
+//     if (!r) {
+//       return;
+//     }
 
-    console.log('ssss',activeIndex,studies)
-    let instances = [];
-    studies[activeIndex].series.forEach(item=>{
-        if(item.Modality=='SEG'){
-            instances.push(item.instances[0].wadouri);
+//     console.log('ssss',activeIndex,studies)
+//     let instances = [];
+//     studies[activeIndex].series.forEach(item=>{
+//         if(item.Modality=='SEG'){
+//             instances.push(item.instances[0].wadouri);
+//         }
+//     })
+//     console.log('zzzzz',instances)
+//     let listPromise = instances.map((item)=>{
+//         let res = fetchData({
+//             url:item,
+//             binaryData:'',
+//             method:'DELETE'
+//         })
+//     })
+//     let res = await Promise.all(listPromise)
+// }
+
+export const statistics = async({studies, viewports, activeIndex}={})=>{
+    console.log('statistics',studies,viewports,activeIndex);
+    let SeriesInstanceUID = viewports[activeIndex].SeriesInstanceUID;
+    console.log('SeriesInstanceUID',SeriesInstanceUID);
+    let imgs = [];
+    studies[0].seriesMap[SeriesInstanceUID].instances.forEach(item=>{
+        imgs.push(item.wadouri);
+    })
+    console.log('imgs',imgs);
+    let segs = [];
+    studies[0].series.forEach(item=>{
+        let instance = item.instances[0];
+        if(item.Modality=='SEG' && instance.metadata.ReferencedSeriesSequence.SeriesInstanceUID==SeriesInstanceUID){
+            segs.push(instance.wadouri);
         }
     })
-    console.log('zzzzz',instances)
-    let listPromise = instances.map((item)=>{
-        let res = fetchData({
-            url:item,
-            binaryData:'',
-            method:'DELETE'
-        })
-    })
-    let res = await Promise.all(listPromise)
+    console.log('segs',segs);
+
+    let data = {
+        img: imgs,
+        seg: segs,
+        batch: 'T2'
+    }
+    if(window.location.hostname=='localhost' || window.location.hostname=='118.190.76.120'){
+        var R_Url = 'http://114.215.42.1/ocpu/library/medRadiomics/R';
+    }else{
+        var R_Url = 'http://192.168.68.152/ocpu/library/medRadiomics/R';
+    }
+    ocpu.seturl(R_Url);
+    // let req = ocpu.rpc('predict34',data, function(output){
+    //     console.log('rpc output',output)
+    // });
+    let req = ocpu.rpc('predictURL',data, function(output){
+        console.log('rpc output',output)
+    });
+    req.fail(function(){
+        alert("R returned an error: " + req.responseText);
+    });
 }
 
 const generateMockMetadata = (segmentIndex,title) => {
