@@ -573,30 +573,33 @@ const SegmentationPanel = ({
             {state.segmentList}
           </TableList>
         </ScrollableArea>
-        <div className="measurementTableFooter">
+        <div className="segmentationFooter">
           <button
             onClick={downSeg}
-            className="saveBtn"
+            className="btn"
+            title="下载标注"
             data-cy="download-segmentations-btn"
           >
-            <Icon name="save" width="14px" height="14px" />
-            download segmentations
+            <Icon name="download" width="14px" height="14px" />
+            Download
           </button>
           <button
             onClick={saveSeg}
-            className="saveBtn"
+            className="btn"
+            title="保存标注"
             data-cy="save-segmentations-btn"
           >
             <Icon name="save" width="14px" height="14px" />
-            Save segmentations
+            Save
           </button>
           <button
             onClick={studyStatistics}
-            className="saveBtn"
-            data-cy="save-segmentations-btn"
+            className="btn"
+            title="算法分析"
+            data-cy="ai-segmentations-btn"
           >
-            <Icon name="save" width="14px" height="14px" />
-            数据分析
+            <Icon name="ai" width="14px" height="14px" />
+            AI
           </button>
         </div>
       </div>

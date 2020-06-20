@@ -5,8 +5,9 @@
 }
 
 .header-left-box {
-  display: inline-block;
+  /*display: inline-block;*/
   position: relative;
+  display: none;
 }
 
 .header-brand {

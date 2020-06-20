@@ -167,7 +167,8 @@ const fetchData = async function({url,binaryData,method='POST'}={}){
 export const statistics = async({studies, viewports, activeIndex}={})=>{
     console.log('statistics',studies,viewports,activeIndex);
     let SeriesInstanceUID = viewports[activeIndex].SeriesInstanceUID;
-    console.log('SeriesInstanceUID',SeriesInstanceUID);
+    let SeriesDescription = viewports[activeIndex].SeriesDescription;
+    console.log('SeriesInstanceUID',SeriesInstanceUID,SeriesDescription);
     let imgs = [];
     studies[0].seriesMap[SeriesInstanceUID].instances.forEach(item=>{
         imgs.push(item.wadouri);
@@ -185,48 +186,80 @@ export const statistics = async({studies, viewports, activeIndex}={})=>{
     let data = {
         img: imgs,
         seg: segs,
-        batch: 'T2'
+        batch: 'CFS'
     }
+    if(SeriesDescription.indexOf('T2')>-1){
+        data.batch = 'T2';
+    }
+
+    let res = await ocpuReq(data,'predictURL');
+    resDeal(res);
+}
+const resDeal = (res)=>{
+    let str = '';
+    res.forEach((item,index)=>{
+        if(item.label=='4'){
+            str = str + `${index}：以[T2/增强]序列病变标注预测，病变恶性上皮肿瘤可能性，概率${item.prob*100}%\n`;
+
+        }else if(item.label=='3'){
+            str = str + `${index}：以[T2/增强]序列病变标注预测，病变良性上皮肿瘤可能性，概率${item.prob*100}%\n`;
+        }
+    })
+    alert(str);
+}
+const ocpuHost = ()=>{
     if(window.location.hostname=='localhost' || window.location.hostname=='118.190.76.120'){
-        var R_Url = 'http://114.215.42.1/ocpu/library/medRadiomics/R';
+        return 'http://114.215.42.1/ocpu';
     }else{
-        var R_Url = 'http://192.168.68.152/ocpu/library/medRadiomics/R';
+        return 'http://192.168.68.152/ocpu';
     }
-    ocpu.seturl(R_Url);
-    // let req = ocpu.rpc('predict34',data, function(output){
-    //     console.log('rpc output',output)
-    // });
-    let req = ocpu.rpc('predictURL',data, function(output){
-        console.log('rpc output',output)
-    });
-    req.fail(function(){
-        alert("R returned an error: " + req.responseText);
-    });
+}
+
+const ocpuReq = async (data,func)=>{
+    return new Promise((resolve,reject)=>{
+        if(window.location.hostname=='localhost' || window.location.hostname=='118.190.76.120'){
+            var R_Url = `${ocpuHost()}/library/medRadiomics/R`;
+        }else{
+            var R_Url = `${ocpuHost()}/library/medRadiomics/R`;
+        }
+        ocpu.seturl(R_Url);
+
+        let req = ocpu.rpc(func,data, function(output){
+            console.log('rpc output',output)
+            resolve(output);
+        });
+
+        req.fail(function(){
+            alert("R returned an error: " + req.responseText);
+            reject(req.responseText);
+        });
+    })
+
 }
 
 const generateMockMetadata = (segmentIndex,title) => {
-  // TODO -> Use colors from the cornerstoneTools LUT.
-  const RecommendedDisplayCIELabValue = dcmjs.data.Colors.rgb2DICOMLAB([
-    1,
-    0,
-    0
-  ]);
-  let segmentTitle = title || 'Segments'
-  return {
-    SegmentedPropertyCategoryCodeSequence: {
-      CodeValue: "T-D0050",
-      CodingSchemeDesignator: "SRT",
-      CodeMeaning: segmentTitle
-    },
-    SegmentNumber: (segmentIndex + 1).toString(),
-    SegmentLabel: segmentTitle+ ' ' + (segmentIndex + 1).toString(),
-    SegmentAlgorithmType: "SEMIAUTOMATIC",
-    SegmentAlgorithmName: "Slicer Prototype",
-    RecommendedDisplayCIELabValue,
-    SegmentedPropertyTypeCodeSequence: {
-      CodeValue: "T-D0050",
-      CodingSchemeDesignator: "SRT",
-      CodeMeaning: segmentTitle
-    }
-  };
+    // TODO -> Use colors from the cornerstoneTools LUT.
+    const RecommendedDisplayCIELabValue = dcmjs.data.Colors.rgb2DICOMLAB([
+        1,
+        0,
+        0
+    ]);
+    let segmentTitle = title || 'Segments'
+    return {
+        SegmentedPropertyCategoryCodeSequence: {
+            CodeValue: "T-D0050",
+            CodingSchemeDesignator: "SRT",
+            CodeMeaning: segmentTitle
+        },
+        SegmentNumber: (segmentIndex + 1).toString(),
+        SegmentLabel: segmentTitle+ ' ' + (segmentIndex + 1).toString(),
+        SegmentAlgorithmType: "SEMIAUTOMATIC",
+        SegmentAlgorithmName: "Slicer Prototype",
+        RecommendedDisplayCIELabValue,
+        SegmentedPropertyTypeCodeSequence: {
+            CodeValue: "T-D0050",
+            CodingSchemeDesignator: "SRT",
+            CodeMeaning: segmentTitle
+        }
+    };
 }

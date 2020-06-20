@@ -64,3 +64,26 @@
   flex: unset;
   margin-right: 16px;
 }
+
+.segmentationFooter{
+  margin-bottom: 10px;
+}
+.segmentationFooter .btn{
+  border: 1px solid var(--ui-border-color-active);
+  border-radius: 25px;
+  background-color: var(--active-color);
+  color: var(--ui-gray-dark);
+  line-height: 25px;
+  padding: 0 20px;
+  outline: none;
+  cursor: pointer;
+  margin:0 3px;
+}
+.segmentationFooter .btn:hover , .segmentationFooter .btn:active{
+  background-color: var(--ui-sky-blue);
+}
+.segmentationFooter .btn svg{
+  margin-right: 4px;
+  position: relative;
+  top: 2px;
+}
