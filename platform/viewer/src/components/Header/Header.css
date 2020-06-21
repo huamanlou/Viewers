@@ -141,3 +141,17 @@
     display: none;
   }
 }
+
+
+#topTips{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    background: #1dc314;
+    color: black;
+    padding: 1px 5px;
+    min-width: 200px;
+    text-align: center;
+    transform: translate(-50%, 0);
+}

@@ -22,15 +22,29 @@ const dicomPath = (url) =>{
     }
     return false;
 }
+const showTips = (msg)=>{
+    let topTips = document.getElementById('topTips');
+    console.log('zzzzz',topTips)
+    topTips.innerHTML = msg || '数据处理中……';
+    topTips.style.display = 'block';
+}
+const closeTips = ()=>{
+    let topTips = document.getElementById('topTips');
+    console.log('zzzzz',topTips)
+    topTips.innerHTML = '';
+    topTips.style.display = 'none';
+}
 
 export const exportSeg = ({studies, viewports, activeIndex, save=false}={}) => {
     // console.log('xxxxxx',studies,viewports,activeIndex);
     // return;
+    
     var title = window.prompt("请输入segments 标题","Segments") 
     if(!title){
         alert('已取消');
         return;
     }
+    showTips();
 
     // const activeViewport = viewports[activeIndex];
 
@@ -108,9 +122,11 @@ export const exportSeg = ({studies, viewports, activeIndex, save=false}={}) => {
                 binaryData: segBlob
             });
         }
+        closeTips();
 
     }).catch(err => {
       console.log(err)
+      closeTips();
     });
 }
 const fetchData = async function({url,binaryData,method='POST'}={}){
@@ -165,6 +181,7 @@ const fetchData = async function({url,binaryData,method='POST'}={}){
 // }
 
 export const statistics = async({studies, viewports, activeIndex}={})=>{
+    showTips();
     console.log('statistics',studies,viewports,activeIndex);
     let SeriesInstanceUID = viewports[activeIndex].SeriesInstanceUID;
     let SeriesDescription = viewports[activeIndex].SeriesDescription;
@@ -193,16 +210,17 @@ export const statistics = async({studies, viewports, activeIndex}={})=>{
     }
 
     let res = await ocpuReq(data,'predictURL');
-    resDeal(res);
+    resDeal(res,SeriesDescription);
+    closeTips();
 }
-const resDeal = (res)=>{
+const resDeal = (res,desc)=>{
     let str = '';
     res.forEach((item,index)=>{
         if(item.label=='4'){
-            str = str + `${index}：以[T2/增强]序列病变标注预测，病变恶性上皮肿瘤可能性，概率${item.prob*100}%\n`;
+            str = str + `${index}：以[${desc}]序列病变标注预测，病变恶性上皮肿瘤可能性，概率${item.prob*100}%\n`;
 
         }else if(item.label=='3'){
-            str = str + `${index}：以[T2/增强]序列病变标注预测，病变良性上皮肿瘤可能性，概率${item.prob*100}%\n`;
+            str = str + `${index}：以[${desc}]序列病变标注预测，病变良性上皮肿瘤可能性，概率${item.prob*100}%\n`;
         }
     })
     alert(str);

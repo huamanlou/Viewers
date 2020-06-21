@@ -62,6 +62,7 @@ function Header(props) {
 
   return (
     <>
+      <div id="topTips"></div>
       <div className="notification-bar">{t('INVESTIGATIONAL USE ONLY')}</div>
       <div
         className={classNames('entry-header', { 'header-big': useLargeLogo })}

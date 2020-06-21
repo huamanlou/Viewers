@@ -29,6 +29,9 @@ class DropdownMenu extends Component {
     const { list, align } = this.props;
 
     return list.map(({ icon, title, link, onClick }, key) => {
+      if(title=='About'){
+        return '';
+      }
       if (link) {
         return (
           <a
