@@ -9,9 +9,9 @@ function OHIFLogo() {
       target="_blank"
       rel="noopener noreferrer"
       className="header-brand"
-      href="http://ohif.org"
+      href="/"
     >
-      <Icon name="ohif-logo" className="header-logo-image" />
+      <img src="https://photo.zastatic.com/images/common-cms/it/20200628/1593313626305_353793_t.png" width="100" />
       {/* Logo text would fit smaller displays at two lines:
        *
        * Open Health
@@ -19,7 +19,7 @@ function OHIFLogo() {
        *
        * Or as `OHIF` on really small displays
        */}
-      <Icon name="ohif-text-logo" className="header-logo-text" />
+      Angel Soft
     </a>
   );
 }

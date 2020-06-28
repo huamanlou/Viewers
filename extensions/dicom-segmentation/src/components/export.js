@@ -121,6 +121,7 @@ export const exportSeg = ({studies, viewports, activeIndex, save=false}={}) => {
                 url:`http://${orthancUrl}/instances`,
                 binaryData: segBlob
             });
+            window.location.reload();
         }
         closeTips();
 
