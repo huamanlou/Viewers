@@ -5,7 +5,9 @@ import cornerstone from 'cornerstone-core';
 import moment from 'moment';
 import { utils, log } from '@ohif/core';
 import { ScrollableArea, TableList, Icon } from '@ohif/ui';
-import { exportSeg,statistics } from '../export.js';
+import { exportSeg, statistics } from '../export.js';
+import setActiveLabelmap from '../../utils/setActiveLabelMap';
+import refreshViewports from '../../utils/refreshViewports';
 
 import {
   BrushColorSelector,
@@ -19,12 +21,6 @@ import './SegmentationPanel.css';
 import SegmentationSettings from '../SegmentationSettings/SegmentationSettings';
 
 const { studyMetadataManager } = utils;
-
-const refreshViewport = () => {
-  cornerstone.getEnabledElements().forEach(enabledElement => {
-    cornerstone.updateImage(enabledElement.element);
-  });
-};
 
 /**
  * SegmentationPanel component
@@ -69,8 +65,7 @@ const SegmentationPanel = ({
    */
   const [state, setState] = useState({
     brushRadius: DEFAULT_BRUSH_RADIUS,
-    brushColor:
-      'rgba(221, 85, 85, 1)',
+    brushColor: 'rgba(221, 85, 85, 1)',
     selectedSegment: null,
     selectedSegmentation: null,
     showSegmentationSettings: false,
@@ -79,7 +74,7 @@ const SegmentationPanel = ({
     segmentList: [],
     cachedSegmentsProperties: [],
     isLoading: false,
-    isDisabled: true
+    isDisabled: true,
   });
 
   useEffect(() => {
@@ -113,7 +108,10 @@ const SegmentationPanel = ({
      * allows us to easily watch the module or the segmentations loading process in any other component
      * without subscribing to external events.
      */
-    document.addEventListener('extensiondicomsegmentationsegloaded', refreshSegmentations);
+    document.addEventListener(
+      'extensiondicomsegmentationsegloaded',
+      refreshSegmentations
+    );
 
     /*
      * These are specific to each element;
@@ -128,7 +126,10 @@ const SegmentationPanel = ({
     );
 
     return () => {
-      document.removeEventListener('extensiondicomsegmentationsegloaded', refreshSegmentations);
+      document.removeEventListener(
+        'extensiondicomsegmentationsegloaded',
+        refreshSegmentations
+      );
       cornerstoneTools.store.state.enabledElements.forEach(enabledElement =>
         enabledElement.removeEventListener(
           'cornerstonetoolslabelmapmodified',
@@ -170,26 +171,29 @@ const SegmentationPanel = ({
           selectedSegmentation: brushStackState.activeLabelmapIndex,
           labelmapList,
           segmentList,
-          isDisabled
+          isDisabled,
         }));
       } else {
         setState(state => ({
           ...state,
           labelmapList: [],
           segmentList: [],
-          isDisabled
+          isDisabled,
         }));
       }
     }
-  }, [
-    viewports,
-    activeIndex,
-    state.isLoading
-  ]);
+  }, [viewports, activeIndex, state.isLoading]);
 
   useEffect(() => {
     refreshSegmentations();
-  }, [viewports, activeIndex, isOpen, state.selectedSegmentation, activeContexts, state.isLoading]);
+  }, [
+    viewports,
+    activeIndex,
+    isOpen,
+    state.selectedSegmentation,
+    activeContexts,
+    state.isLoading,
+  ]);
 
   /* Handle open/closed panel behaviour */
   useEffect(() => {
@@ -224,12 +228,10 @@ const SegmentationPanel = ({
           title: displayDescription,
           description: displayDate,
           onClick: async () => {
-            const activatedLabelmapIndex = await _setActiveLabelmap(
+            const activatedLabelmapIndex = await setActiveLabelmap(
               activeViewport,
               studies,
               displaySet,
-              firstImageId,
-              brushStackState.activeLabelmapIndex,
               () => onSelectedSegmentationChange(),
               onDisplaySetLoadFailure
             );
@@ -240,21 +242,22 @@ const SegmentationPanel = ({
     },
     [studies]
   );
-  const downSeg = () =>{
-    console.log(studies,viewports,activeIndex)
-    exportSeg({studies, viewports, activeIndex});
-  }
-  const saveSeg = () =>{
-    console.log(studies,viewports,activeIndex)
-    exportSeg({studies, viewports, activeIndex, save:true});
-  }
-  const deleteSegments = () =>{
-    console.log(studies,viewports,activeIndex)
-    deleteSeg(studies,activeIndex)
-  }
-  const studyStatistics = () =>{
-    statistics({studies, viewports, activeIndex});
-  }
+  const downSeg = () => {
+    console.log(studies, viewports, activeIndex);
+    exportSeg({ studies, viewports, activeIndex });
+  };
+  const saveSeg = () => {
+    console.log(studies, viewports, activeIndex);
+    exportSeg({ studies, viewports, activeIndex, save: true });
+  };
+  const deleteSegments = () => {
+    console.log(studies, viewports, activeIndex);
+    deleteSeg(studies, activeIndex);
+  };
+  const studyStatistics = () => {
+    statistics({ studies, viewports, activeIndex });
+  };
+
   const getSegmentList = useCallback(
     (labelmap3D, firstImageId, brushStackState) => {
       /*
@@ -308,9 +311,6 @@ const SegmentationPanel = ({
             segmentNumber,
             labelmap3D.activeSegmentIndex
           );
-          console.log(studies,viewports,activeIndex)
-          // exportSeg(studies, viewports, activeIndex);
-          
           updateState('selectedSegment', sameSegment ? null : segmentNumber);
 
           const validIndexList = [];
@@ -394,9 +394,13 @@ const SegmentationPanel = ({
           return !segmentsHidden[segmentIndex];
         };
 
-        const cachedSegmentProperties = state.cachedSegmentsProperties[segmentNumber];
+        const cachedSegmentProperties =
+          state.cachedSegmentsProperties[segmentNumber];
         let visible = isSegmentVisible();
-        if (cachedSegmentProperties && cachedSegmentProperties.visible !== visible) {
+        if (
+          cachedSegmentProperties &&
+          cachedSegmentProperties.visible !== visible
+        ) {
           toggleSegmentVisibility();
         }
 
@@ -424,8 +428,10 @@ const SegmentationPanel = ({
                 onSegmentVisibilityChange(segmentNumber, newVisibility);
               }
 
-              updateCachedSegmentsProperties(segmentNumber, { visible: newVisibility });
-              refreshViewport();
+              updateCachedSegmentsProperties(segmentNumber, {
+                visible: newVisibility,
+              });
+              refreshViewports();
             }}
           />
         );
@@ -447,10 +453,9 @@ const SegmentationPanel = ({
     const segmentsProperties = state.cachedSegmentsProperties;
     const segmentProperties = state.cachedSegmentsProperties[segmentNumber];
 
-    segmentsProperties[segmentNumber] =
-      segmentProperties ?
-        { ...segmentProperties, ...properties } :
-        properties;
+    segmentsProperties[segmentNumber] = segmentProperties
+      ? { ...segmentProperties, ...properties }
+      : properties;
 
     updateState('cachedSegmentsProperties', segmentsProperties);
   };
@@ -517,10 +522,13 @@ const SegmentationPanel = ({
     configuration.fillAlphaInactive = newConfiguration.fillAlphaInactive;
     configuration.outlineAlphaInactive = newConfiguration.outlineAlphaInactive;
     onConfigurationChange(newConfiguration);
-    refreshViewport();
+    refreshViewports();
   };
 
-  const disabledConfigurationFields = ['outlineAlpha', 'shouldRenderInactiveLabelmaps'];
+  const disabledConfigurationFields = [
+    'outlineAlpha',
+    'shouldRenderInactiveLabelmaps',
+  ];
   if (state.showSegmentationSettings) {
     return (
       <SegmentationSettings
@@ -532,7 +540,10 @@ const SegmentationPanel = ({
     );
   } else {
     return (
-      <div className={`dcmseg-segmentation-panel ${state.isDisabled && 'disabled'}`}>
+      <div
+        className={`dcmseg-segmentation-panel ${state.isDisabled &&
+          'disabled'}`}
+      >
         <Icon
           className="cog-icon"
           name="cog"
@@ -662,57 +673,6 @@ const _getReferencedSegDisplaysets = (StudyInstanceUID, SeriesInstanceUID) => {
 
 /**
  *
- *
- * @param {*} viewportSpecificData
- * @param {*} studies
- * @param {*} displaySet
- * @param {*} firstImageId
- * @param {*} activeLabelmapIndex
- * @returns
- */
-const _setActiveLabelmap = async (
-  viewportSpecificData,
-  studies,
-  displaySet,
-  firstImageId,
-  activeLabelmapIndex,
-  callback = () => { },
-  onDisplaySetLoadFailure
-) => {
-  if (displaySet.labelmapIndex === activeLabelmapIndex) {
-    log.warn(`${activeLabelmapIndex} is already the active labelmap`);
-    return displaySet.labelmapIndex;
-  }
-
-  if (!displaySet.isLoaded) {
-    // What props does this expect `viewportSpecificData` to have?
-    // TODO: Should this return the `labelmapIndex`?
-
-    const loadPromise = displaySet.load(viewportSpecificData, studies);
-
-    loadPromise.catch(error => {
-      onDisplaySetLoadFailure(error);
-
-      // Return old index.
-      return activeLabelmapIndex;
-    });
-
-    await loadPromise;
-  }
-
-  const { state } = cornerstoneTools.getModule('segmentation');
-  const brushStackState = state.series[firstImageId];
-  brushStackState.activeLabelmapIndex = displaySet.labelmapIndex;
-
-  refreshViewport();
-
-  callback();
-
-  return displaySet.labelmapIndex;
-};
-
-/**
- *
  * @param {*} firstImageId
  * @param {*} activeSegmentIndex
  * @returns
@@ -730,7 +690,7 @@ const _setActiveSegment = (firstImageId, segmentIndex, activeSegmentIndex) => {
     brushStackState.labelmaps3D[brushStackState.activeLabelmapIndex];
   labelmap3D.activeSegmentIndex = segmentIndex;
 
-  refreshViewport();
+  refreshViewports();
 
   return segmentIndex;
 };
