@@ -592,7 +592,7 @@ const SegmentationPanel = ({
             data-cy="download-segmentations-btn"
           >
             <Icon name="download" width="14px" height="14px" />
-            Download
+            下载
           </button>
           <button
             onClick={saveSeg}
@@ -601,7 +601,7 @@ const SegmentationPanel = ({
             data-cy="save-segmentations-btn"
           >
             <Icon name="save" width="14px" height="14px" />
-            Save
+            保存
           </button>
           <button
             onClick={studyStatistics}

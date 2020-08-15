@@ -218,10 +218,10 @@ const resDeal = (res,desc)=>{
     let str = '';
     res.forEach((item,index)=>{
         if(item.label=='4'){
-            str = str + `${index}：以[${desc}]序列病变标注预测，病变恶性上皮肿瘤可能性，概率${item.prob*100}%\n`;
+            str = str + `${index}：以[${desc}]序列病变标注预测，病变恶性上皮肿瘤可能性大，概率${item.prob*100}%\n`;
 
         }else if(item.label=='3'){
-            str = str + `${index}：以[${desc}]序列病变标注预测，病变良性上皮肿瘤可能性，概率${item.prob*100}%\n`;
+            str = str + `${index}：以[${desc}]序列病变标注预测，病变良性上皮肿瘤可能性大，概率${item.prob*100}%\n`;
         }
     })
     alert(str);
