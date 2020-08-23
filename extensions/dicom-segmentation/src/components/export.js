@@ -186,7 +186,7 @@ export const statistics = async({studies, viewports, activeIndex}={})=>{
     console.log('statistics',studies,viewports,activeIndex);
     let SeriesInstanceUID = viewports[activeIndex].SeriesInstanceUID;
     let SeriesDescription = viewports[activeIndex].SeriesDescription;
-    console.log('SeriesInstanceUID',SeriesInstanceUID,SeriesDescription);
+    console.log('SeriesInstanceUID',SeriesInstanceUID,SeriesDescription,viewports[activeIndex]);
     let imgs = [];
     studies[0].seriesMap[SeriesInstanceUID].instances.forEach(item=>{
         imgs.push(item.wadouri);
@@ -218,10 +218,13 @@ const resDeal = (res,desc)=>{
     let str = '';
     res.forEach((item,index)=>{
         if(item.label=='4'){
-            str = str + `${index}：以[${desc}]序列病变标注预测，病变恶性上皮肿瘤可能性大，概率${item.prob*100}%\n`;
+            // str = str + `${index}：以[${desc}]序列病变标注预测，病变恶性上皮肿瘤可能性大，概率${item.prob*100}%\n`;
+            str = str + `预测序列：${desc}\r\n预测结果：恶性上皮肿瘤可能性大\r\n概率：${item.prob*100}%\n`;
+
 
         }else if(item.label=='3'){
-            str = str + `${index}：以[${desc}]序列病变标注预测，病变良性上皮肿瘤可能性大，概率${item.prob*100}%\n`;
+            // str = str + `${index}：以[${desc}]序列病变标注预测，病变良性上皮肿瘤可能性大，概率${item.prob*100}%\n`;
+            str = str + `预测序列：${desc}\r\n预测结果：病变良性上皮肿瘤可能性大\r\n概率：${item.prob*100}%\n`;
         }
     })
     alert(str);
@@ -271,7 +274,8 @@ const generateMockMetadata = (segmentIndex,title) => {
             CodeMeaning: segmentTitle
         },
         SegmentNumber: (segmentIndex + 1).toString(),
-        SegmentLabel: segmentTitle+ ' ' + (segmentIndex + 1).toString(),
+        // SegmentLabel: segmentTitle+ ' ' + (segmentIndex + 1).toString(),
+        SegmentLabel: segmentTitle,
         SegmentAlgorithmType: "SEMIAUTOMATIC",
         SegmentAlgorithmName: "Slicer Prototype",
         RecommendedDisplayCIELabValue,

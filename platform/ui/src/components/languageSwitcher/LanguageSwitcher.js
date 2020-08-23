@@ -8,7 +8,12 @@ const LanguageSwitcher = ({ language, onLanguageChange, languages }) => {
     const { value } = event.target;
     onLanguageChange(value);
   };
-
+  let langArr = [];
+  languages.map(item=>{
+    if(item.value=='zh' || item.value=='en-US'){ //zh,en
+      langArr.push(item);
+    }
+  })
   return (
     <select
       name="language-select"
@@ -17,7 +22,7 @@ const LanguageSwitcher = ({ language, onLanguageChange, languages }) => {
       value={language}
       onChange={onChange}
     >
-      {languages.map(lng => (
+      {langArr.map(lng => (
         <option key={lng.value} value={lng.value}>
           {lng.label}
         </option>
