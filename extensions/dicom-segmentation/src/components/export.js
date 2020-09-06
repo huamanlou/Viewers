@@ -8,7 +8,7 @@ import './jquery.min.js';
 import './opencpu-0.4.js';
 const { studyMetadataManager } = utils;
 
-const orthancUrl = `//118.190.76.120:8077/orthanc`;
+const orthancUrl = `//${location.host}/orthanc`;
 
 //将frame数据转化成dicom下载路径
 // http://118.190.76.120:8077/orthanc/wado?objectUID=1.2.840.113619.2.244.6945.3553798.23132.1275611655.854&contentType=application%2Fdicom&requestType=WADO
