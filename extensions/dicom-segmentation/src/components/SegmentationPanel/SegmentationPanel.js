@@ -5,8 +5,8 @@ import cornerstone from 'cornerstone-core';
 import moment from 'moment';
 import { utils, log } from '@ohif/core';
 import { ScrollableArea, TableList, Icon } from '@ohif/ui';
+import { exportSeg, statistics } from '../export.js';
 import DICOMSegTempCrosshairsTool from '../../tools/DICOMSegTempCrosshairsTool';
-
 import setActiveLabelmap from '../../utils/setActiveLabelMap';
 import refreshViewports from '../../utils/refreshViewports';
 
@@ -243,6 +243,21 @@ const SegmentationPanel = ({
     },
     [studies]
   );
+  const downSeg = () => {
+    console.log(studies, viewports, activeIndex);
+    exportSeg({ studies, viewports, activeIndex });
+  };
+  const saveSeg = () => {
+    console.log(studies, viewports, activeIndex);
+    exportSeg({ studies, viewports, activeIndex, save: true });
+  };
+  const deleteSegments = () => {
+    console.log(studies, viewports, activeIndex);
+    deleteSeg(studies, activeIndex);
+  };
+  const studyStatistics = () => {
+    statistics({ studies, viewports, activeIndex });
+  };
 
   const getSegmentList = useCallback(
     (labelmap3D, firstImageId, brushStackState) => {
@@ -340,7 +355,6 @@ const SegmentationPanel = ({
               imageId,
               segmentNumber
             );
-
             onSegmentItemClick({
               StudyInstanceUID,
               SOPInstanceUID,
@@ -576,6 +590,35 @@ const SegmentationPanel = ({
             {state.segmentList}
           </TableList>
         </ScrollableArea>
+        <div className="segmentationFooter">
+          <button
+            onClick={downSeg}
+            className="btn"
+            title="下载标注"
+            data-cy="download-segmentations-btn"
+          >
+            <Icon name="download" width="14px" height="14px" />
+            下载
+          </button>
+          <button
+            onClick={saveSeg}
+            className="btn"
+            title="保存标注"
+            data-cy="save-segmentations-btn"
+          >
+            <Icon name="save" width="14px" height="14px" />
+            保存
+          </button>
+          <button
+            onClick={studyStatistics}
+            className="btn"
+            title="算法分析"
+            data-cy="ai-segmentations-btn"
+          >
+            <Icon name="ai" width="14px" height="14px" />
+            AI
+          </button>
+        </div>
       </div>
     );
   }
