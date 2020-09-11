@@ -1,4 +1,6 @@
 import './OHIFLogo.css';
+// import logo from './logo.svg';
+const logo = require('./logo.svg');
 
 import { Icon } from '@ohif/ui';
 import React from 'react';
@@ -11,7 +13,7 @@ function OHIFLogo() {
       className="header-brand"
       href="/"
     >
-      <img src="https://photo.zastatic.com/images/common-cms/it/20200628/1593313626305_353793_t.png" width="83" />
+      <img src="${logo}" width="83" />
       {/* Logo text would fit smaller displays at two lines:
        *
        * Open Health

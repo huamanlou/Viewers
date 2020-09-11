@@ -2689,6 +2689,25 @@
   dependencies:
     "@types/node" "^12.11.1"
 
+"@ohif/extension-dicom-microscopy@^0.51.3":
+  version "0.51.3"
+  resolved "https://npm.garenanow.com/@ohif%2fextension-dicom-microscopy/-/extension-dicom-microscopy-0.51.3.tgz#91453e54d2cb2f1ef5a1255c62b30911228ff838"
+  integrity sha512-q5AqdyO3jTwo6s4OJ+VCYgQZY8XMHYzoSrblX1k35ufRmTdNv9lEt5sWbjuAas2Mj8NlPdReBhvrjJUWJqs1/Q==
+  dependencies:
+    "@babel/runtime" "^7.5.5"
+    classnames "^2.2.6"
+    dicom-microscopy-viewer "^0.6.1"
+
+"@ohif/extension-dicom-pdf@^1.0.6":
+  version "1.0.6"
+  resolved "https://npm.garenanow.com/@ohif%2fextension-dicom-pdf/-/extension-dicom-pdf-1.0.6.tgz#fe111db75aa6387480249a70e8081200a0c69b52"
+  integrity sha512-4J3OqLQ19E9g1aM3egZTHL9aLXbbHiEk650MFSHZK3fp76ES8zDe3asZorQ7m/9VENjfZsaB72EJ7rauXoJ5lQ==
+  dependencies:
+    "@babel/runtime" "^7.5.5"
+    classnames "^2.2.6"
+    lodash.isequal "^4.5.0"
+    pdfjs-dist "^2.2.228"
+
 "@ohif/i18n@^0.2.3":
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/@ohif/i18n/-/i18n-0.2.5.tgz#2b92a78109823ce0f50dd590201d980a5fd64974"
