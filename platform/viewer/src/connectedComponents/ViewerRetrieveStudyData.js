@@ -47,7 +47,6 @@ const _promoteList = (study, studyMetadata, filters, isFilterStrategy) => {
   let promoted = false;
   // Promote only if no filter should be applied
   if (!isFilterStrategy) {
-    _sortStudyDisplaySet(study, studyMetadata);
     promoted = _promoteStudyDisplaySet(study, studyMetadata, filters);
   }
 
@@ -89,6 +88,7 @@ const _isQueryParamApplied = (study, filters = {}, isFilterStrategy) => {
   const { seriesInstanceUID } = filters;
   let applied = true;
   // skip in case no filter or no toast manager
+
   if (!seriesInstanceUID) {
     return applied;
   }
@@ -193,12 +193,6 @@ const _updateStudyDisplaySets = (study, studyMetadata) => {
   if (study.derivedDisplaySets) {
     studyMetadata._addDerivedDisplaySets(study.derivedDisplaySets);
   }
-
-  studyMetadata.setDisplaySets(study.displaySets);
-};
-
-const _sortStudyDisplaySet = (study, studyMetadata) => {
-  studyMetadata.sortDisplaySets(study.displaySets);
 };
 
 const _thinStudyData = study => {
@@ -345,6 +339,13 @@ function ViewerRetrieveStudyData({
         if (isFilterStrategy) {
           retrieveParams.push(filters);
         }
+      }
+
+      if (
+        appConfig.splitQueryParameterCalls ||
+        appConfig.enableGoogleCloudAdapter
+      ) {
+        retrieveParams.push(true); // Seperate SeriesInstanceUID filter calls.
       }
 
       cancelableStudiesPromises[studyInstanceUIDs] = makeCancelable(

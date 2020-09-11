@@ -3,6 +3,57 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.6](https://github.com/OHIF/Viewers/compare/@ohif/extension-vtk@1.7.5...@ohif/extension-vtk@1.7.6) (2020-09-10)
+
+**Note:** Version bump only for package @ohif/extension-vtk
+
+
+
+
+
+## [1.7.5](https://github.com/OHIF/Viewers/compare/@ohif/extension-vtk@1.7.4...@ohif/extension-vtk@1.7.5) (2020-09-03)
+
+**Note:** Version bump only for package @ohif/extension-vtk
+
+
+
+
+
+## [1.7.4](https://github.com/OHIF/Viewers/compare/@ohif/extension-vtk@1.7.3...@ohif/extension-vtk@1.7.4) (2020-09-03)
+
+**Note:** Version bump only for package @ohif/extension-vtk
+
+
+
+
+
+## [1.7.3](https://github.com/OHIF/Viewers/compare/@ohif/extension-vtk@1.7.2...@ohif/extension-vtk@1.7.3) (2020-09-02)
+
+**Note:** Version bump only for package @ohif/extension-vtk
+
+
+
+
+
+## [1.7.2](https://github.com/OHIF/Viewers/compare/@ohif/extension-vtk@1.7.1...@ohif/extension-vtk@1.7.2) (2020-08-28)
+
+**Note:** Version bump only for package @ohif/extension-vtk
+
+
+
+
+
+## [1.7.1](https://github.com/OHIF/Viewers/compare/@ohif/extension-vtk@1.7.0...@ohif/extension-vtk@1.7.1) (2020-08-24)
+
+
+### Bug Fixes
+
+* 🐛 Fail gracefully on an MPR load error ([#1992](https://github.com/OHIF/Viewers/issues/1992)) ([779a7e0](https://github.com/OHIF/Viewers/commit/779a7e0976aa3a2d2bf1dc8f056950f0545c9fff))
+
+
+
+
+
 # [1.7.0](https://github.com/OHIF/Viewers/compare/@ohif/extension-vtk@1.6.10...@ohif/extension-vtk@1.7.0) (2020-08-18)
 
 
